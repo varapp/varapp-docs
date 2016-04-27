@@ -1,0 +1,30 @@
+
+div.leftside {
+    width: 414px;
+    padding: 0px 3px 0px 0px;
+    float: left;
+}
+
+div.rightside {
+    margin-left: 425px;
+}
+
+/* Genotypes */
+div.leftside-sm {
+    width: 120px;
+    padding: 0px 3px 0px 0px;
+    float: left;
+}
+div.rightside-sm {
+    margin-left: 131px;
+}
+
+div.floatleft {
+    float: left;
+    margin-right: 11px;
+}
+
+div.clear {
+    clear: both;
+}
+
