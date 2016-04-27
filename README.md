@@ -1,0 +1,2 @@
+# varapp-docs
+Sphinx documentation
