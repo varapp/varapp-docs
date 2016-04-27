@@ -1,4 +1,6 @@
-# varapp-docs
+varapp-docs
+===========
+
 Documentation to Varapp.
 
 It is ReStructuredText (.rst) format. 
