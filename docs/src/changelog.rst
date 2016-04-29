@@ -2,6 +2,42 @@
 Changelog
 =========
 
+18th April - 29th April 2016
+----------------------------
+
+* Varapp is open-source and available on GitHub: https://github.com/varapp . Tagged 0.1
+* Using numpy.packbits to reduce the cache size by 8x.
+* New demo db, new demo instance of Varapp on varapp-demo.vital-it.ch, publicly available. Jenkins job to deploy it.
+* Using HTTPS for increased security. Only for dev and demo dbs; the latter has a signed certificate. (The other "prod" VM is internal and without a paid certificate would warn the user that the site is potentially dangerous...).
+* Using Redis cache. It stores on disk when the app is down, and is independent from Apache processes (i.e. never killed or duplicated). That is a 20x speedup at app startup. Guarantees that requests never time out again.
+* Each run of the main benchmark adds a point on a performance evolution graph.
+* Abstract for the SIB days.
+* Functional test: Location filter
+
+Docs:
+
+* Moved docs to a separate GitHub repo varapp-docs.
+* Documented how to generate the users db schema, and provided data dumps to start up easily.
+* Moved the docs to be publicly available as well.
+* Documented the Redis cache dependency, and how to set it up.
+* Link to the docs from the app and from GitHub/Gitlab's readme.
+
+Major bug fixes:
+
+* Fixed stats_service._init_impacts taking most of the app's running time (by writing better SQL statements).
+* Fixed broken Location filter (wrong regex for chrom "chrX", among others).
+* Fixed REST tests after HTTPS was setup.
+* Moved the definition of available databases out of the settings file.
+* Removed ModSecurity from demo - for some reason it blocked any request making use of MySQL.
+* Prevented users of the demo to change the "guest" account's settings (e.g. password).
+
+Minor bug fixes:
+
+* Fixed Admin panel columns overlapping.
+* Reformatted negative frequencies reported in the new Gemini versions when it does not exist (instead of NULL).
+* Tagging emails subject correcly with [varapp].
+
+
 
 23rd March - 1st April 2016
 ---------------------------

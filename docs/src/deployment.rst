@@ -198,7 +198,7 @@ Let's suppose that we want to place the source in this folder::
   Typically the settings file should be written and stored externally, 
   then copied into the module inside ``varmed/settings/``. 
   
-* Create the database::
+* Create the database:
 
   Log in to MySQL using the MYSQL_USER and MYSQL_PWD defined in settings.py::
 
@@ -348,4 +348,6 @@ This will create a .tar.gz file in ``build/``.
 Copy that archive into a destination folder that can be read by Apache, 
 typically some ``htdocs/`` or ``/var/www/html/``, and extract. 
 The destination folder is the one indicated by ``DocumentRoot`` in the Apache configuration.
+
+Depending on your Apache config, you may need to edit ``environment.js``
 
