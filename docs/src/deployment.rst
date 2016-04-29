@@ -137,6 +137,8 @@ Apache - MySQL - SMTP - Redis
   For more details, see the `Redis docs <http://redis.io/documentation>`_.
 
 
+.. _backend_deployment:
+
 Backend deployment
 ------------------
 
@@ -349,5 +351,12 @@ Copy that archive into a destination folder that can be read by Apache,
 typically some ``htdocs/`` or ``/var/www/html/``, and extract. 
 The destination folder is the one indicated by ``DocumentRoot`` in the Apache configuration.
 
-Depending on your Apache config, you may need to edit ``environment.js``
+Backend URL and HTTPS
+.....................
+
+Depending on your Apache config, you might need to edit ``conf/environment.js``
+so that if finds the correct URL to communicate with the backend.
+
+In particular, depending on whether you decided to protect the backend by using
+the HTTPS protocol, you will need to set the `USE_HTTPS` variable in ``conf/conf.js``
 

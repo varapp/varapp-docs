@@ -6,19 +6,6 @@ Here we describe how to enhance the VCF file one gets from a usual variants call
 by adding useful annotation and moving the data into a relational database
 to allow fast searching and filtering of variants within Varapp.
 
-Automatic pipeline
-------------------
-
-For convenience, we provide a pipeline running through all the steps described below.
-Drop your VCF and PED files inside the folder indicated by ``SOME_ENV_VARIABLE`` in `some_config_file`,
-and they get automatically loaded into Varapp when ready.
-
-There is no need to use the pipeline if you don't want to: in the end, Varapp only cares about
-the Gemini databases it finds inside the folder indicated by ``SOME_OTHER_VARIABLE`` in
-`some_config_file`. Actually, any SQLite database with the same
-`schema <http://gemini.readthedocs.org/en/latest/content/database_schema.html>`_
-as Gemini produces can be used.
-
 Input format
 ------------
 
@@ -70,6 +57,37 @@ For each samples batch, the previous step produces a database (SQLite).
 Varapp can interrogate as many of these variants databases as the user needs.
 The user interface allows to change the working database in one click.
 For performance reasons, we don't recommend generating databases containing more than 500K variants.
+
+Loading the databases
+---------------------
+
+It is time to install the app. First follow the :doc:`./deployment` instructions.
+
+Manually
+........
+
+At this point the app needs to be told where to look for Gemini databases.
+This is done by setting `GEMINI_DB_PATH` to the location of your files in the config file
+``settings.py`` of the backend.
+
+Also fill the `variants_db` table of "users_db",
+in a similar fashion to the "demo" data already present.
+
+Automated pipeline
+..................
+
+(In construction)
+
+.. For convenience, we provide a pipeline running through all the steps described below.
+   Drop your VCF and PED files inside the folder indicated by ``SOME_ENV_VARIABLE`` in `some_config_file`,
+   and they get automatically loaded into Varapp when ready.
+
+.. There is no need to use the pipeline if you don't want to: in the end, Varapp only cares about
+   the Gemini databases it finds inside the folder indicated by ``SOME_OTHER_VARIABLE`` in
+   `some_config_file`. Actually, any SQLite database with the same
+   `schema <http://gemini.readthedocs.org/en/latest/content/database_schema.html>`_
+   as Gemini produces can be used.
+
 
 Start using the app
 -------------------
