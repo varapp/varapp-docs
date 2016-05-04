@@ -95,4 +95,3 @@ Start using the app
 As soon as the data is ready, there is no need to look at those files anymore.
 Log in Varapp and start using the graphical interface.
 
-

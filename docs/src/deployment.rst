@@ -337,12 +337,17 @@ Install `npm` (with the `node.js` installer, for instance)::
     yum -y install nodejs
     sudo npm install npm -g
 
+The installation has been successfully tested with node v4.2.0 and npm 2.14.7.
+
+Configuration parameters must be set in ``app/conf/conf.js``.
+In particular, depending on whether you decided to protect the backend by using
+the HTTPS protocol, you will need to set the `USE_HTTPS` variable.
+
 Build the app::
 
     npm install
     bower install
     gulp build
-    gulp  test
     gulp targz
 
 This will create a .tar.gz file in ``build/``.
@@ -350,13 +355,4 @@ This will create a .tar.gz file in ``build/``.
 Copy that archive into a destination folder that can be read by Apache, 
 typically some ``htdocs/`` or ``/var/www/html/``, and extract. 
 The destination folder is the one indicated by ``DocumentRoot`` in the Apache configuration.
-
-Backend URL and HTTPS
-.....................
-
-Depending on your Apache config, you might need to edit ``conf/environment.js``
-so that if finds the correct URL to communicate with the backend.
-
-In particular, depending on whether you decided to protect the backend by using
-the HTTPS protocol, you will need to set the `USE_HTTPS` variable in ``conf/conf.js``
 
