@@ -91,7 +91,7 @@ How can I try it?
 One public, demo version of the program is available at
 `https://varapp-demo.vital-it.ch <https://varapp-demo.vital-it.ch>`_ .
 
-Log in as user "test" with password "test".
+Log in as user "demo" with password "demo".
 You will be granted access to a variants database "demo".
 Try the following standard filters:
 
