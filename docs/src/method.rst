@@ -44,8 +44,49 @@ have been used to produce a dataset,
 so that it is always possible to reproduce a result obtained with an older version.
 *Note*: We use Gemini for annotation only; Varapp has its own query API for filtering.
 
-The VCF gets annotated first with VEP, then is ran through Gemini
+The VCF gets first `decomposed and normalized with vt <http://genome.sph.umich.edu/wiki/Vt>`_, 
+then `annotated with VEP 
+<http://gemini.readthedocs.io/en/latest/content/functional_annotation.html#stepwise-installation-and-usage-of-vep>`_, 
+then is `ran through Gemini <http://gemini.readthedocs.io/en/latest/content/quick_start.html>`_
 to transform it into a relational database of annotated variants.
+
+Until a later release, Varapp is sensible to the annotation it finds in the VCF.
+Here is the command that we run to annotate with VEP::
+
+    perl ${VEP_PATH}/variant_effect_predictor.pl -i <vcf> \
+        --cache \
+        --dir ${VEP_PATH}/.vepcache \
+        --fasta $ref \
+        --sift b \
+        --polyphen b \
+        --symbol \
+        --numbers \
+        --biotype \
+        --total_length \
+        --canonical --ccds \
+        --vcf \
+        --hgvs \
+        --gene_phenotype \
+        --uniprot \
+        --force_overwrite \
+        --domains --regulatory \
+        --protein --tsl \
+        --variant_class \
+        --port 3337 \
+        -o ${VEP_OUT}
+
+And this is the custom annotation we add from the VCF INFO field into Gemini::
+
+    gemini annotate -f <vcf> \
+        -a extract \
+        -c AF,BaseQRankSum,FS,MQRankSum,ReadPosRankSum,SOR \
+        -t float,float,float,float,float,float \
+        -e AF,BaseQRankSum,FS,MQRankSum,ReadPosRankSum,SOR \
+        -o mean,mean,mean,mean,mean,mean \
+        <gemini_db>
+
+The complete pipeline we use can be found :doc:`here <annotate_vcf>`.
+
 
 The annotation with VEP can take a few hours. However, it has to be done only once.
 
