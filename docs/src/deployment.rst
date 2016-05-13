@@ -174,6 +174,18 @@ Let's suppose that we want to place the source in this folder::
     pip3 install cython             # necessary to build C extensions
     pip3 install mysqlclient        # MySQL driver
 
+* Edit the settings file to fit your environment:
+
+  The app needs a file with various settings (typically called ``settings.py``),
+  a template of which is already present in the distribution inside
+  ``varmed/settings/settings_template.py``.
+
+  Typically the settings file should be written and stored externally, 
+  then copied into the module inside ``varmed/settings/settings.py``. 
+
+  Common settings are in ``vamed/settings/base.py`` and can be overwritten
+  in ``settings.py``, but usually you won't need to change anything there.
+  
 * Install:
 
   Enter the app's source folder (``${SOURCE_DIR}/django-varapp-<version>``).
@@ -191,15 +203,6 @@ Let's suppose that we want to place the source in this folder::
   That should install all required Python dependencies and the
   application itself inside the ``$venv`` directory.
 
-* Edit the settings file to fit your environment:
-
-  The app needs a file with various settings (typically called ``settings.py``),
-  a template of which is already present in the distribution inside
-  ``varmed/settings/``.
-
-  Typically the settings file should be written and stored externally, 
-  then copied into the module inside ``varmed/settings/``. 
-  
 * Create the database:
 
   Log in to MySQL using the MYSQL_USER and MYSQL_PWD defined in settings.py::
@@ -214,15 +217,26 @@ Let's suppose that we want to place the source in this folder::
 
     python manage.py migrate
 
+  You should see lines like::
+
+    Operations to perform:
+    Apply all migrations: contenttypes, sessions, auth, admin, varapp
+    Running migrations:
+    Rendering model states... DONE
+    Applying contenttypes.0001_initial... OK
+    Applying auth.0001_initial... OK
+    Applying admin.0001_initial... OK
+    ...
+
   At this point, trying to log in the app will probably tell you "User does not exist".
   You need to edit the database to add new users, variants dbs, and accesses of one to the other.
   For convenience, some sample data has already been prepared and can be loaded for each table like this::
 
     python manage.py loaddata resources/dumps/init/data_people.json
+    python manage.py loaddata resources/dumps/init/data_roles.json
     python manage.py loaddata resources/dumps/init/data_users.json
     python manage.py loaddata resources/dumps/init/data_variantsdb.json
     python manage.py loaddata resources/dumps/init/data_dbaccess.json
-    python manage.py loaddata resources/dumps/init/data_roles.json
 
   This will create a new user "admin" with password "admin", the role of "superuser",
   and initial access to a database called "mydb.db" (which does not exist yet).
@@ -317,13 +331,18 @@ Advanced
 
     python manage.py runmodwsgi --port 8887 [options]
 
-.. An environment variable `DJANGO_SETTINGS_MODULE` is set automatically by Django when
-the app is started to indicate where the settings are to be taken from.
-But if one wants to run some part of the library in a script,
-e.g. unit tests, one needs to specify it::
-export DJANGO_SETTINGS_MODULE="varmed.settings.settings_example"
-This makes references to the file
-``$venv/lib/python3.4/site-packages/varmed/settings/settings_example.py``.
+* An environment variable `DJANGO_SETTINGS_MODULE` is set automatically by Django when
+  the app is started to indicate where the settings are to be taken from.
+  But if one wants to run some part of the library in a script,
+  e.g. unit tests, one needs to specify it::
+
+    export DJANGO_SETTINGS_MODULE="varmed.settings.settings_example"
+
+  This makes references to the file
+   ``$venv/lib/python3.4/site-packages/varmed/settings/settings_example.py``.
+
+  When using `mod_wsgi`, setting the environment variable will have no effect;
+  instead, configure it in ``varmed/wsgi.py``
 
 
 Frontend deployment
