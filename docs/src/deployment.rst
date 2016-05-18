@@ -1,4 +1,8 @@
 
+.. Non-breaking white space, to fill empty divs
+.. |nbsp| unicode:: 0xA0
+   :trim:
+
 Installation
 ============
 
@@ -152,13 +156,10 @@ Let's suppose that we want to place the source in this folder::
 
     SOURCE_DIR=/home/varapp/backend 
 
-* Build the app::
+* Move source files to destination:
 
-    python setup.py sdist
-
-  Copy ``dist/django-varapp-<version>.tar.gz`` into a destination folder,
-  in our example case ``$SOURCE_DIR``, and extract.
-  It is advised to keep the source here even after installation.
+  Copy the directory containing the source files into a destination folder,
+  in our example case ``$SOURCE_DIR``, and unarchive/decompress if necessary.
 
 * Create a Python virtual environment at ``$venv``
   (``$venv`` is a path, e.g. ``venv=~/.virtualenvs/varapp``)::
@@ -178,17 +179,17 @@ Let's suppose that we want to place the source in this folder::
 
   The app needs a file with various settings (typically called ``settings.py``),
   a template of which is already present in the distribution inside
-  ``varmed/settings/settings_template.py``.
+  ``varmed/settings/settings.py``. Edit this file according to your environment.
 
   Typically the settings file should be written and stored externally, 
-  then copied into the module inside ``varmed/settings/settings.py``. 
+  then copied into the module to overwrite the above. 
 
   Common settings are in ``vamed/settings/base.py`` and can be overwritten
-  in ``settings.py``, but usually you won't need to change anything there.
-  
+  in ``settings.py``, although usually you won't need to change anything there.
+
 * Install:
 
-  Enter the app's source folder (``${SOURCE_DIR}/django-varapp-<version>``).
+  Enter the app's source folder (``${SOURCE_DIR}/varapp-backend-py``).
   There should be a file ``setup.py`` in the current directory.
 
   Build C extensions::
@@ -241,40 +242,6 @@ Let's suppose that we want to place the source in this folder::
   This will create a new user "admin" with password "admin", the role of "superuser",
   and initial access to a database called "mydb.db" (which does not exist yet).
 
-* Apache configuration (httpd.conf)
-
-  There is one .conf file specific to the user/virtual machine,
-  and one created by `mod_wsgi`.
-  The latter should never be edited direcly (that would get overwritten).
-  We are interested in the user/machine specific one.
-
-  Here is our development config (shortened), given as example::
-
-    <VirtualHost *:80>
-      ServerAdmin  ...
-      DocumentRoot .../htdocs
-      ServerName   varapp.vital-it.ch
-
-      ProxyPass         /backend  http://localhost:8887/varapp
-      ProxyPassReverse  /backend  http://localhost:8887/varapp
-
-      <Directory ".../htdocs">
-        AllowOverride All
-        Options FollowSymLinks
-        Order allow,deny
-        Allow from all
-      </Directory>
-    </VirtualHost>
-
-  Configure, then restart the server::
-
-    sudo /etc/init.d/httpd restart
-
-  or it might be::
-
-    /sbin/service httpd restart
-
-
 * Configure and run the Apache proxy (`mod_wsgi`)::
   
     mod_wsgi-express start-server varmed/wsgi.py \
@@ -289,16 +256,12 @@ Let's suppose that we want to place the source in this folder::
   the settings file. If it is not in ``varmed/settings`` or is not called ``settings.py``,
   you must edit ``varmed/wsgi.py`` accordingly.
 
-  It sets up a proxy Apache server, hence the ProxyPass and ProxyPassReverse
-  lines in the Apache config above.
-  The ProxyPasslines will redirect :8000/backend queries to read at :8887/varapp.
-
   One is free to change the port number, processes and threads, or timeouts
   specified in the command above.
 
 * Test that it works::
 
-    curl http://127.0.0.1:8000/backend/
+    curl http://127.0.0.1:8887/varapp/
 
   (with the trailing slash) should respond "Hello World !".
 
@@ -373,5 +336,43 @@ This will create a .tar.gz file in ``build/``.
 
 Copy that archive into a destination folder that can be read by Apache, 
 typically some ``htdocs/`` or ``/var/www/html/``, and extract. 
-The destination folder is the one indicated by ``DocumentRoot`` in the Apache configuration.
+The destination folder is the one indicated by ``DocumentRoot`` 
+in the Apache configuration (see below).
+
+Apache configuration (httpd.conf)
+.................................
+
+  There is one .conf file specific to the user/virtual machine,
+  and one created by `mod_wsgi`.
+  The latter should never be edited direcly (that would get overwritten).
+  We are interested in the user/machine specific one.
+
+  Here is our development config (shortened), given as example::
+
+    <VirtualHost *:80>
+      ServerAdmin  admin_name
+      DocumentRoot .../htdocs
+      ServerName   varapp-demo.vital-it.ch
+
+      ProxyPass         /backend  http://localhost:8887/varapp
+      ProxyPassReverse  /backend  http://localhost:8887/varapp
+
+      <Directory ".../htdocs">
+        AllowOverride All
+        Options FollowSymLinks
+        Order allow,deny
+        Allow from all
+      </Directory>
+    </VirtualHost>
+
+  Configure, then restart the server::
+
+    sudo /etc/init.d/httpd restart
+
+  or it might be::
+
+    /sbin/service httpd restart
+
+  The ProxyPasslines redirect `:8000/backend` (`varapp-demo.vital-it.ch/backend`) 
+  queries to `localhost:8887/varapp`.
 

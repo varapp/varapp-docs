@@ -119,3 +119,16 @@ in `Hum Mutat. 2014 Apr;35(4):447-51 <http://www.ncbi.nlm.nih.gov/pubmed/2451578
 If you liked it, we encourage you to deploy an instance at your own lab
 and share the experience.
 
+
+Future plans
+------------
+
+These are the new features that we are either working on now
+or would like to add progressively to the program.
+
+- View local alignments in a viewer similar to IGV.
+- Calculate variants frequencies across several databases of one user/group.
+- Easy installer.
+- Scale up to full genome.
+- More flexibility with the annotation.
+
