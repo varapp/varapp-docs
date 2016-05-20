@@ -334,6 +334,12 @@ Configuration parameters must be set in ``app/conf/conf.js``.
 In particular, depending on whether you decided to protect the backend by using
 the HTTPS protocol, you will need to set the `USE_HTTPS` variable.
 
+Install sass (to compile .sass/.scss files to .css)::
+
+    sudo gem install sass
+
+(It requires Ruby, get it somehow if necessary).
+
 Build the app::
 
     npm install
