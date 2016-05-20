@@ -236,11 +236,9 @@ Let's suppose that we want to place the source in this folder::
     python manage.py loaddata resources/dumps/init/data_people.json
     python manage.py loaddata resources/dumps/init/data_roles.json
     python manage.py loaddata resources/dumps/init/data_users.json
-    python manage.py loaddata resources/dumps/init/data_variantsdb.json
-    python manage.py loaddata resources/dumps/init/data_dbaccess.json
 
-  This will create a new user "admin" with password "admin", the role of "superuser",
-  and initial access to a database called "mydb.db" (which does not exist yet).
+  This will create a new user "admin" with password "admin", the role of "superuser".
+  This user will be able to manage available databases from the frontend Admin page.
 
 * Configure and run the Apache proxy (`mod_wsgi`)::
   
@@ -264,6 +262,17 @@ Let's suppose that we want to place the source in this folder::
     curl http://127.0.0.1:8887/varapp/
 
   (with the trailing slash) should respond "Hello World !".
+
+* Add some data:
+
+  Now you can add Gemini databases to the directory defined by ``GEMINI_DB_PATH`` in the settings.
+  When the app (re-)starts, all sqlite3 databases present in that directory will be loaded.
+  In the interface, that will make them available in the db selection menu, 
+  and in the Admin page so that the admin can manage the access of each database
+  to other users and himself.
+
+  If you have not yet produced a Gemini database from your VCF, see :doc:`method`.
+
 
 
 Advanced
