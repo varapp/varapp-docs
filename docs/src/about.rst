@@ -126,6 +126,7 @@ Future plans
 These are the new features that we are either working on now
 or would like to add progressively to the program.
 
+- Get rid of VEP for the annotation.
 - View local alignments in a viewer similar to IGV.
 - Calculate variants frequencies across several databases of one user/group.
 - Easy installer.
