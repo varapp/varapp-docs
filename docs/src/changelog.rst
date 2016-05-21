@@ -2,10 +2,37 @@
 Changelog
 =========
 
+1st May - 20th May 2016
+-----------------------
+
+* Management of gemini databases: what happens when some are added, edited, removed during execution
+  (no more need to restart the app on change); what is loaded at startup, what happens to the cache.
+* Deployment docs according to the feedback of foreign users trying to install it.
+* Users of the demo can only log in as demo/demo, can no more create accounts, change password or their profile information.
+* Added HapMap example db to the demo.
+* Merged the Redis caches into one.
+* Use HTTPS conditionally - change in settings.
+* Upgrade of Javascript libs; fixed the many subsequent bugs.
+* Redaction of a small publication for reference. Benchmarks.
+* Read the gene annotation directly in the db (no more gene_detailed cache).
+* Tests with WGS, 6mio variants db (scales for some filters, not for others).
+* Check that Redis is present on startup, error meaningfully otherwise.
+* Check that the users db is present and has tables on startup, error meaningfully otherwise.
+* Django tests on features involving the database (rollback after tests are done).
+
+Major bug fixes
+* Loading a too big db caused an error because its size in bits is bigger than INT. Changed to BIGINT.
+* Impact has NULL values in the new Gemini.
+
+Minor bug fixes
+* Django, stop logging all db queries in debug mode.
+
+
+
 18th April - 29th April 2016
 ----------------------------
 
-* Varapp is open-source and available on GitHub: https://github.com/varapp . Tagged 0.1
+* Varapp is open-source and available on GitHub: https://github.com/varapp . Tagged 1.0.
 * Using numpy.packbits to reduce the cache size by 8x.
 * New demo db, new demo instance of Varapp on varapp-demo.vital-it.ch, publicly available. Jenkins job to deploy it.
 * Using HTTPS for increased security. Only for dev and demo dbs; the latter has a signed certificate. (The other "prod" VM is internal and without a paid certificate would warn the user that the site is potentially dangerous...).
@@ -67,7 +94,7 @@ Major bug fixes:
 * Removed admin JWTs hard-coded in scripts...
 * Fixed broken behavior when changing db from /samples
 * Fixed changing db saying "unknown samples" in certain circumstances.
-* Fixed fill_dbs script to also set DbAccesses to 0 if a VariantDb gets inactive in favor of an updated one. 
+* Fixed fill_dbs script to also set DbAccesses to 0 if a VariantDb gets inactive in favor of an updated one.
   Transmit access to the new one instead.
 
 Minor bug fixes:
@@ -108,14 +135,14 @@ Minor bug fixes:
 * Models: link bookmarks to `db_accesses` instead of `users` + `variants_db`. Removed reference to `variants_db` from `history` table.
 * Updated test db to include chrX genes and new compound candidates after the filter changed
 * Documentation: app deployment, users guide
- 
+
 Major bug fixes:
 
 * Fixed variants not loading when stores are ready but session expired
 * Fixed wrong auto redirection to /login on pages that do not require authentication
 * Fixed pure-render-mixin causing bugs in data tables
 * Stop loading gifs in an error is encountered
- 
+
 Minor bug fixes:
 
 * Handle wrong inputs in continuous filters custom text fields
