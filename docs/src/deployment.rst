@@ -216,7 +216,7 @@ Let's suppose that we want to place the source in this folder::
 
   Generate the database schema (from models)::
 
-    python manage.py migrate
+    python3 manage.py migrate
 
   You should see lines like::
 
@@ -233,15 +233,30 @@ Let's suppose that we want to place the source in this folder::
   You need to edit the database to add new users, variants dbs, and accesses of one to the other.
   For convenience, some sample data has already been prepared and can be loaded for each table like this::
 
-    python manage.py loaddata resources/dumps/init/data_people.json
-    python manage.py loaddata resources/dumps/init/data_roles.json
-    python manage.py loaddata resources/dumps/init/data_users.json
+    python3 manage.py loaddata resources/dumps/init/data_people.json
+    python3 manage.py loaddata resources/dumps/init/data_roles.json
+    python3 manage.py loaddata resources/dumps/init/data_users.json
+    python3 manage.py loaddata resources/dumps/init/data_variantsdb.json
+    python3 manage.py loaddata resources/dumps/init/data_dbaccess.json
 
-  This will create a new user "admin" with password "admin", the role of "superuser".
+  This will create a new user "admin" with password "admin", the role of "superuser",
+  with access to a sample database "demo_mini".
   This user will be able to manage available databases from the frontend Admin page.
 
-* Configure and run the Apache proxy (`mod_wsgi`)::
+* Test with the local dev server:
+
+  This will start a simple web server (to not use in production)::
+
+    python3 manage.py runserver
+
+  Now you can enter ``http://127.0.0.1:8000/varapp`` in your browser's address bar 
+  and it should answer "Hello World!". 
+
+* Configure and run the Apache proxy (`mod_wsgi`):
   
+  The above looks nice already, but is not suitable for production. 
+  Here is how to serve the app with Apache and `mod_wsgi`::
+
     mod_wsgi-express start-server varmed/wsgi.py \
         --port=8887 \
         --user varapp \
@@ -251,19 +266,18 @@ Let's suppose that we want to place the source in this folder::
         --server-status
 
   ``varmed/wsgi.py`` contains the configuration for this step, and tells the app where to find
-  the settings file. If it is not in ``varmed/settings`` or is not called ``settings.py``,
+  the settings file. If it is not in ``varmed/settings/`` or is not called ``settings.py``,
   you must edit ``varmed/wsgi.py`` accordingly.
 
   One is free to change the port number, processes and threads, or timeouts
   specified in the command above.
 
-* Test that it works::
+* Test that it works:
 
-    curl http://127.0.0.1:8887/varapp/
+  You can enter ``http://127.0.0.1:8887/varapp`` in your browser's address bar 
+  and it should answer "Hello World!". 
 
-  (with the trailing slash) should respond "Hello World !".
-
-* Add some data:
+* Add more data:
 
   Now you can add Gemini databases to the directory defined by ``GEMINI_DB_PATH`` in the settings.
   When the app (re-)starts, all sqlite3 databases present in that directory will be loaded.
@@ -298,10 +312,6 @@ Advanced
 
     mod_wsgi-express -h
     mod_wsgi-express start-server -h
-
-* One can also use the app's ``manage.py`` to run `mod_wsgi`::
-
-    python manage.py runmodwsgi --port 8887 [options]
 
 * An environment variable `DJANGO_SETTINGS_MODULE` is set automatically by Django when
   the app is started to indicate where the settings are to be taken from.
