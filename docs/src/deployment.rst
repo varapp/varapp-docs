@@ -118,7 +118,7 @@ Apache - MySQL - SMTP - Redis
     yum install mysql-community-devel
 
 
-* Set up an SMTP server::
+* Set up an SMTP server (emails)::
 
     yum install telnet
 
@@ -150,7 +150,7 @@ We describe here how to serve the Python backend with Apache and mod_wsgi,
 but nothing prevents from using another web server instead.
 
 The Python backend can be found in `Github <https://github.com/varapp/varapp-backend-py>`_.
-Clone or download the archive and unarchive it.
+Clone or download the archive.
 
 Let's suppose that we want to place the source in this folder::
 
@@ -164,27 +164,35 @@ Let's suppose that we want to place the source in this folder::
 * Create a Python virtual environment at ``$venv``
   (``$venv`` is a path, e.g. ``venv=~/.virtualenvs/varapp``)::
 
-     mkdir -p $venv
-     pyvenv $venv
-     source $venv/bin/activate
+    venv=~/.virtualenvs/varapp`
+    mkdir -p $venv
+    pyvenv $venv
+    source $venv/bin/activate
 
 * Install these python libraries in the virtualenv::
 
-    pip3 install mod_wsgi           # Apache mod for Python
-    pip3 install numpy              # necessary for Cython setup
-    pip3 install cython             # necessary to build C extensions
-    pip3 install mysqlclient        # MySQL driver
+    pip3 install --upgrade pip
+    pip3 install mod_wsgi-httpd>=2.4.12.6   # Apache mod for Python (can take a couple of minutes)
+    pip3 install numpy>=1.10.0              # necessary for Cython setup
+    pip3 install cython>=0.23.4             # necessary to build C extensions
+    pip3 install mysqlclient>=1.3.7         # MySQL driver
 
 * Edit the settings file to fit your environment:
 
   The app needs a file with various settings (typically called ``settings.py``),
   a template of which is already present in the distribution inside
-  ``varmed/settings/settings.py``. Edit this file according to your environment.
+  ``varmed/settings/settings.py``. Edit this file according to your environment, in particular
 
-  Typically the settings file should be written and stored externally, 
+  * ``GEMINI_DB_PATH``: the directory under which you will store the variants data.
+  * ``DB_USERS``: the name of the MySQL database that stores users, db accesses etc.
+  * Your MySQL connection settings.
+  * Your SMTP (email server) settings.
+  * Once in production, turn off ``DEBUG`` and change the ``SECRET_KEY``.
+
+  Typically, the settings file should be written and stored externally, 
   then copied into the module to overwrite the above. 
 
-  Common settings are in ``vamed/settings/base.py`` and can be overwritten
+  Common settings are in ``varmed/settings/base.py`` and can be overwritten
   in ``settings.py``, although usually you won't need to change anything there.
 
 * Install:
@@ -194,7 +202,6 @@ Let's suppose that we want to place the source in this folder::
 
   Build C extensions::
 
-    rm varapp/filters/apply_bitwise.c    # clean up - it will be regenerated properly
     python3 setup.py build_ext --inplace
 
   Install the app::
@@ -206,13 +213,11 @@ Let's suppose that we want to place the source in this folder::
 
 * Create the database:
 
-  Log in to MySQL using the MYSQL_USER and MYSQL_PWD defined in settings.py::
+  Log in to MySQL using the ``MYSQL_USER`` and ``MYSQL_PWD`` defined in settings.py,
+  and create an empty database called "users_db" (or any other USERS_DB in settings.py)::
 
-    mysql -u<MYSQL_USER> -p<MYSQL_PWD>
-
-  Create and empty database called "users_db" (or any other USERS_DB in settings.py)::
-
-    CREATE DATABASE users_db DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+    mysql -u<MYSQL_USER> -p<MYSQL_PWD> --execute \
+    "CREATE DATABASE users_db DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;"
 
   Generate the database schema (from models)::
 
@@ -259,18 +264,21 @@ Let's suppose that we want to place the source in this folder::
 
     mod_wsgi-express start-server varmed/wsgi.py \
         --port=8887 \
-        --user varapp \
-        --server-root=${SOURCE_DIR}/mod_wsgi-server \
+        --user <USERNAME> \
+        --server-root=./mod_wsgi-server \
         --processes 2 --threads 5 \
-        --queue-timeout 60 --request-timeout 90 \
-        --server-status
+        --queue-timeout 60 --request-timeout 90
 
   ``varmed/wsgi.py`` contains the configuration for this step, and tells the app where to find
   the settings file. If it is not in ``varmed/settings/`` or is not called ``settings.py``,
   you must edit ``varmed/wsgi.py`` accordingly.
 
+  Do not forget to replace ``<USERNAME>`` by your own user name.
   One is free to change the port number, processes and threads, or timeouts
   specified in the command above.
+
+  ``server-root`` is the directory where the wsgi/httpd configuration will be written,
+  along with Apache control executables.
 
 * Test that it works:
 
@@ -292,6 +300,16 @@ Let's suppose that we want to place the source in this folder::
 Advanced
 ........
 
+* Useful `mod_wsgi` development options ::
+
+    --reload-on-changes: restart the server everytime a change is made to the source files.
+    --log-to-terminal: print log to standard out instead of Apache's error_log.
+
+  For more options, see::
+
+    mod_wsgi-express -h
+    mod_wsgi-express start-server -h
+
 * For more control, one can set up the server configuration with::
 
     mod_wsgi-express setup-server varmed/wsgi.py [options]
@@ -302,16 +320,6 @@ Advanced
   Then one can call Apache binaries directly, for instance to restart the app::
 
     ${SOURCE_DIR}/mod_wsgi-server/apachectl restart
-
-* Useful development options ::
-
-    --reload-on-changes: restart the server everytime a change is made to the source files.
-    --log-to-terminal: print log to standard out instead of Apache's error_log.
-
-  For more options, see::
-
-    mod_wsgi-express -h
-    mod_wsgi-express start-server -h
 
 * An environment variable `DJANGO_SETTINGS_MODULE` is set automatically by Django when
   the app is started to indicate where the settings are to be taken from.
@@ -329,6 +337,20 @@ Advanced
 
 Frontend deployment
 -------------------
+
+From a precompiled distribution
+...............................
+
+The easier way to install it is to download the latest release archive:
+`varapp-browser-react.tar.gz <https://github.com/varapp/varapp-frontend-react/releases/tag/v1.0>`_.
+
+Copy that archive into a destination folder that can be read by Apache, 
+typically some ``htdocs/`` or ``/var/www/html/``, and extract. 
+The destination folder is the one indicated by ``DocumentRoot`` 
+in the usual Apache configuration file (`httpd.conf`, see below).
+
+From source
+...........
 
 The Javascript frontend can be found in `Github <https://github.com/varapp/varapp-frontend-react>`_.
 Clone or download the archive and unarchive it.
@@ -357,20 +379,17 @@ Build the app::
     gulp build
     gulp targz
 
-This will create a .tar.gz file in ``build/``.
-
-Copy that archive into a destination folder that can be read by Apache, 
-typically some ``htdocs/`` or ``/var/www/html/``, and extract. 
-The destination folder is the one indicated by ``DocumentRoot`` 
-in the Apache configuration (see below).
+This will create a .tar.gz file in ``build/``. Then proceed as above starting from that archive.
 
 Apache configuration (httpd.conf)
 .................................
 
-  There is one .conf file specific to the user/virtual machine,
-  and one created by `mod_wsgi`.
-  The latter should never be edited direcly (that would get overwritten).
-  We are interested in the user/machine specific one.
+  We are interested in the user/machine specific Apache config file, 
+  commonly called `httpd.conf`, often located in ``/etc/httpd/`` or in the
+  ``apache2/`` directory.
+
+  N.B. `mod_wsgi-express` generated another one that should not be 
+  edited direcly (it would be overwritten anyway).
 
   Here is our development config (shortened), given as example::
 
@@ -390,7 +409,7 @@ Apache configuration (httpd.conf)
       </Directory>
     </VirtualHost>
 
-  Configure, then restart the server::
+  Configure, then restart Apache::
 
     sudo /etc/init.d/httpd restart
 
