@@ -411,6 +411,6 @@ Apache configuration (httpd.conf)
 
     /sbin/service httpd restart
 
-  The ProxyPasslines redirect `:8000/backend` (`varapp-demo.vital-it.ch/backend`) 
-  queries to `localhost:8887/varapp`.
+  The ProxyPasslines redirect ``:8000/backend`` (e.g. varapp-demo.vital-it.ch/backend) 
+  queries to ``localhost:8887/varapp``.
 
