@@ -146,22 +146,22 @@ Apache - MySQL - SMTP - Redis
 Backend deployment
 ------------------
 
-We describe here how to serve the Python backend with Apache and mod_wsgi,
-but nothing prevents from using another web server instead.
-
 The Python backend can be found in `Github <https://github.com/varapp/varapp-backend-py>`_.
 
 * Clone or download the archive::
 
     git clone https://github.com/varapp/varapp-backend-py.git
 
-* Create a Python virtual environment at ``$venv``
-  (``$venv`` is a path, e.g. ``venv=~/.virtualenvs/varapp``)::
+* Create a Python virtual environment::
 
-    venv=~/.virtualenvs/varapp
+    venv=~/.virtualenvs/varapp     # Or any other location of your choice
     mkdir -p $venv
     pyvenv $venv
     source $venv/bin/activate
+
+  This makes every python library you install from now on, including Varapp, exist only in this directory.
+  So you have a clean environment, with no versions clashes or namespace problems.
+  Another consequence is that uninstall varapp, you only need to ``rm -rf $venv``.
 
 * Install these python libraries in the virtualenv::
 
@@ -254,7 +254,8 @@ The Python backend can be found in `Github <https://github.com/varapp/varapp-bac
 * Configure and run the Apache proxy (`mod_wsgi`):
   
   The above looks nice already, but is not suitable for production. 
-  Here is how to serve the app with Apache and `mod_wsgi`::
+  We describe here how to serve the Python backend with Apache and mod_wsgi
+  (but nothing prevents from using another web server instead)::
 
     mod_wsgi-express start-server varmed/wsgi.py \
         --port=8887 \
@@ -278,6 +279,7 @@ The Python backend can be found in `Github <https://github.com/varapp/varapp-bac
 
   You can enter ``http://127.0.0.1:8887/varapp`` in your browser's address bar 
   and it should answer "Hello World!". 
+  This is the URL that the frontend will call to fetch data from the server.
 
 * Add more data:
 
