@@ -150,16 +150,10 @@ We describe here how to serve the Python backend with Apache and mod_wsgi,
 but nothing prevents from using another web server instead.
 
 The Python backend can be found in `Github <https://github.com/varapp/varapp-backend-py>`_.
-Clone or download the archive.
 
-Let's suppose that we want to place the source in this folder::
+* Clone or download the archive::
 
-    SOURCE_DIR=/home/varapp/backend 
-
-* Move source files to destination:
-
-  Copy the directory containing the source files into a destination folder,
-  in our example case ``$SOURCE_DIR``, and unarchive/decompress if necessary.
+    git clone https://github.com/varapp/varapp-backend-py.git
 
 * Create a Python virtual environment at ``$venv``
   (``$venv`` is a path, e.g. ``venv=~/.virtualenvs/varapp``)::
@@ -198,7 +192,7 @@ Let's suppose that we want to place the source in this folder::
 
 * Install:
 
-  Enter the app's source folder (``${SOURCE_DIR}/varapp-backend-py``).
+  Enter the app's source folder.
   There should be a file ``setup.py`` in the current directory.
 
   Build C extensions::
@@ -314,12 +308,12 @@ Advanced
 
     mod_wsgi-express setup-server varmed/wsgi.py [options]
 
-  The result is a folder ``mod_wsgi_server`` in ``$SOURCE_DIR``
+  The result is a folder ``mod_wsgi_server`` inside the source directory
   with Apache config files and executables inside.
 
   Then one can call Apache binaries directly, for instance to restart the app::
 
-    ${SOURCE_DIR}/mod_wsgi-server/apachectl restart
+    mod_wsgi-server/apachectl restart
 
 * An environment variable `DJANGO_SETTINGS_MODULE` is set automatically by Django when
   the app is started to indicate where the settings are to be taken from.
