@@ -164,7 +164,7 @@ Let's suppose that we want to place the source in this folder::
 * Create a Python virtual environment at ``$venv``
   (``$venv`` is a path, e.g. ``venv=~/.virtualenvs/varapp``)::
 
-    venv=~/.virtualenvs/varapp`
+    venv=~/.virtualenvs/varapp
     mkdir -p $venv
     pyvenv $venv
     source $venv/bin/activate
@@ -172,10 +172,11 @@ Let's suppose that we want to place the source in this folder::
 * Install these python libraries in the virtualenv::
 
     pip3 install --upgrade pip
-    pip3 install mod_wsgi-httpd>=2.4.12.6   # Apache mod for Python (can take a couple of minutes)
-    pip3 install numpy>=1.10.0              # necessary for Cython setup
-    pip3 install cython>=0.23.4             # necessary to build C extensions
-    pip3 install mysqlclient>=1.3.7         # MySQL driver
+    pip3 install 'mod_wsgi>=4.5.2'            # Apache mod for Python 
+    pip3 install 'mod_wsgi-httpd>=2.4.12.6'   # Local, latest httpd version (can take a couple of minutes)
+    pip3 install 'numpy>=1.10.0'              # necessary for Cython setup
+    pip3 install 'cython>=0.23.4'             # necessary to build C extensions
+    pip3 install 'mysqlclient>=1.3.7'         # MySQL driver
 
 * Edit the settings file to fit your environment:
 
@@ -234,8 +235,7 @@ Let's suppose that we want to place the source in this folder::
     Applying admin.0001_initial... OK
     ...
 
-  At this point, trying to log in the app will probably tell you "User does not exist".
-  You need to edit the database to add new users, variants dbs, and accesses of one to the other.
+  At this point, you need to edit the database to add new users, variants dbs, and accesses of one to the other.
   For convenience, some sample data has already been prepared and can be loaded for each table like this::
 
     python3 manage.py loaddata resources/dumps/init/data_people.json
