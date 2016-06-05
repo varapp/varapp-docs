@@ -7,12 +7,11 @@ Installation
 ============
 
 This page explains how to deploy Varapp on a new, empty server.
+The installation has been tested only on CentOS and Mac OSX.
+In this example we will suppose that the OS is CentOS 6/7.
 
 Varapp is a standard web application with decoupled backend (Python)
 and frontend (Javascript).
-
-The installation has been tested only on CentOS and Mac OSX.
-In this example we will suppose that the OS is CentOS 6/7.
 
 
 Dependencies
@@ -26,7 +25,7 @@ Dependencies
 
 See below how to install them in a way that is guaranteed to work.
 
-The backend uses Django with mod_wsgi. It makes use of Cython to build C extensions.
+The backend uses Django and makes use of Cython to build C extensions.
 
 
 Host setup
@@ -88,6 +87,8 @@ The app has been developped and tested under Python 3.4/3.5.
     ln -s /usr/local/bin/python3.4 /usr/bin/python3
     ln -s /usr/local/bin/pyvenv-3.4 /usr/bin/pyvenv
 
+    
+.. _LAMP:
 
 Apache - MySQL - SMTP - Redis
 .............................
@@ -113,9 +114,7 @@ Apache - MySQL - SMTP - Redis
     /usr/bin/mysql_secure_installation
 
   In order for python drivers to work, we need the devel version, hence the 
-  `mariadb-devel`. For the classic mysql, it is::
-
-    yum install mysql-community-devel
+  `mariadb-devel`. For the classic mysql, it is ``yum install mysql-community-devel``.
 
 
 * Set up an SMTP server (emails)::
@@ -138,6 +137,11 @@ Apache - MySQL - SMTP - Redis
 
     src/redis-server &
 
+  Test that it works::
+
+    redis-cli PING
+
+  (should answer "PONG").
   For more details, see the `Redis docs <http://redis.io/documentation>`_.
 
 
@@ -169,7 +173,6 @@ The Python backend can be found in `Github <https://github.com/varapp/varapp-bac
     pip3 install 'mod_wsgi>=4.5.2'            # Apache mod for Python 
     pip3 install 'mod_wsgi-httpd>=2.4.12.6'   # Local, latest httpd version (can take a couple of minutes)
     pip3 install 'numpy>=1.10.0'              # necessary for Cython setup
-    pip3 install 'cython>=0.23.4'             # necessary to build C extensions
     pip3 install 'mysqlclient>=1.3.7'         # MySQL driver
 
 * Edit the settings file to fit your environment:
@@ -194,10 +197,6 @@ The Python backend can be found in `Github <https://github.com/varapp/varapp-bac
 
   Enter the app's source folder.
   There should be a file ``setup.py`` in the current directory.
-
-  Build C extensions::
-
-    python3 setup.py build_ext --inplace
 
   Install the app::
 
@@ -299,7 +298,7 @@ Advanced
 * Useful `mod_wsgi` development options ::
 
     --reload-on-changes: restart the server everytime a change is made to the source files.
-    --log-to-terminal: print log to standard out instead of Apache's error_log.
+    --log-to-terminal: print log to standard out instead of Apache`s error_log.
 
   For more options, see::
 
@@ -317,6 +316,9 @@ Advanced
 
     mod_wsgi-server/apachectl restart
 
+  One important difference is that ``mod_wsgi-express start-server`` 
+  will not kill an existing process to restart it, while the above does.
+
 * An environment variable `DJANGO_SETTINGS_MODULE` is set automatically by Django when
   the app is started to indicate where the settings are to be taken from.
   But if one wants to run some part of the library in a script,
@@ -324,8 +326,8 @@ Advanced
 
     export DJANGO_SETTINGS_MODULE="varmed.settings.settings_example"
 
-  This makes references to the file
-   ``$venv/lib/python3.4/site-packages/varmed/settings/settings_example.py``.
+  This makes reference to the file
+  ``$venv/lib/python3.4/site-packages/varmed/settings/settings_example.py``.
 
   When using `mod_wsgi`, setting the environment variable will have no effect;
   instead, configure it in ``varmed/wsgi.py``
@@ -345,6 +347,11 @@ typically some ``htdocs/`` or ``/var/www/html/``, and extract.
 The destination folder is the one indicated by ``DocumentRoot`` 
 in the usual Apache configuration file (`httpd.conf`, see below).
 
+Edit the configuration file ``app/conf/conf.js`` to specify the the ``BACKEND_URL``,
+that all REST calls will use. E.g.: "`http://127.0.0.1:8000/varapp`" for the default 
+local dev server, or "`https://varapp-demo.vital-it.ch/backend`" for our demo server (HTTPS).
+
+
 From source
 ...........
 
@@ -358,15 +365,9 @@ Install `npm` (with the `node.js` installer, for instance)::
 
 The installation has been successfully tested with node v4.2.0 and npm 2.14.7.
 
-Configuration parameters must be set in ``app/conf/conf.js``.
-In particular, depending on whether you decided to protect the backend by using
-the HTTPS protocol, you will need to set the `USE_HTTPS` variable.
-
-Install sass (to compile .sass/.scss files to .css)::
+Install sass (to compile .sass/.scss files to .css. It requires Ruby, get it somehow if necessary)::
 
     sudo gem install sass
-
-(It requires Ruby, get it somehow if necessary).
 
 Build the app::
 
@@ -380,39 +381,42 @@ This will create a .tar.gz file in ``build/``. Then proceed as above starting fr
 Apache configuration (httpd.conf)
 .................................
 
-  We are interested in the user/machine specific Apache config file, 
-  commonly called `httpd.conf`, often located in ``/etc/httpd/`` or in the
-  ``apache2/`` directory.
+We are interested in the user/machine specific Apache config file, 
+commonly called `httpd.conf`, often located in ``/etc/httpd/`` or in the
+``apache2/`` directory.
 
-  N.B. `mod_wsgi-express` generated another one that should not be 
-  edited direcly (it would be overwritten anyway).
+N.B. `mod_wsgi-express` generated another one that should not be 
+edited direcly (it would be overwritten anyway).
 
-  Here is our development config (shortened), given as example::
+Here is our development config (shortened), given as example::
 
-    <VirtualHost *:80>
-      ServerAdmin  admin_name
-      DocumentRoot .../htdocs
-      ServerName   varapp-demo.vital-it.ch
+  <VirtualHost *:80>
+    ServerAdmin  admin_name
+    DocumentRoot .../htdocs
+    ServerName   varapp-demo.vital-it.ch
 
-      ProxyPass         /backend  http://localhost:8887/varapp
-      ProxyPassReverse  /backend  http://localhost:8887/varapp
+    ProxyPass         /backend  http://localhost:8887/varapp
+    ProxyPassReverse  /backend  http://localhost:8887/varapp
 
-      <Directory ".../htdocs">
-        AllowOverride All
-        Options FollowSymLinks
-        Order allow,deny
-        Allow from all
-      </Directory>
-    </VirtualHost>
+    <Directory ".../htdocs">
+      AllowOverride All
+      Options FollowSymLinks
+      Order allow,deny
+      Allow from all
+    </Directory>
+  </VirtualHost>
 
-  Configure, then restart Apache::
+Then restart Apache::
 
-    sudo /etc/init.d/httpd restart
+  sudo /etc/init.d/httpd restart
+  
+Depending on your system, it may be different, like 
+``/sbin/service httpd restart``, or ``/etc/init.d/httpd restart``.
 
-  or it might be::
+The ProxyPass lines are the common way to redirect ``<domain>/backend`` URLs
+(e.g. varapp-demo.vital-it.ch/backend) to ``localhost:<port>/varapp``, 
+the local wsgi server (that the client cannot access directly otherwise).
 
-    /sbin/service httpd restart
-
-  The ProxyPasslines redirect ``:8000/backend`` (e.g. varapp-demo.vital-it.ch/backend) 
-  queries to ``localhost:8887/varapp``.
+Replace ``*:80`` by ``*:443`` to use HTTPS instead of HTTP. Do not forget to 
+edit the ``BACKEND_URL`` accordingly in ``app/conf/conf.js``.
 
