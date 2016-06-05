@@ -2,6 +2,28 @@
 Changelog
 =========
 
+23rd May - 3rd June 2016
+------------------------
+
+* The frontend can be installed with a simple clone and extract of the precompiled package on GitHub.
+* External frontend config file for the user to to set e.g. backend URL, https, etc.
+* Refactored and commented the gulp pipeline.
+* Now always activate every db found in GEMINI_DB_PATH, and deactivate every one that is not found there.
+* Build Cython module only if Cython is found, otherwise use the provided precompiled C.
+* Deployment script for the frontend.
+
+Minor bug fixes:
+
+* The footer is now always visible - even in 'mobile phone view'.
+* Fixed the Location filter search icon (invisible after react-bootstrap update).
+
+Docs:
+
+* Simplified installation procedure. Alternatively, "from source".
+* How use deployment/test servers, to test that it works before configuring Apache etc.
+
+
+
 1st May - 20th May 2016
 -----------------------
 
@@ -20,11 +42,13 @@ Changelog
 * Check that the users db is present and has tables on startup, error meaningfully otherwise.
 * Django tests on features involving the database (rollback after tests are done).
 
-Major bug fixes
+Major bug fixes:
+
 * Loading a too big db caused an error because its size in bits is bigger than INT. Changed to BIGINT.
 * Impact has NULL values in the new Gemini.
 
-Minor bug fixes
+Minor bug fixes:
+
 * Django, stop logging all db queries in debug mode.
 
 
