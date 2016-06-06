@@ -3,7 +3,7 @@ From a precompiled distribution
 ...............................
 
 The easier way to install it is to download the latest release archive:
-`varapp-browser-react.tar.gz <https://github.com/varapp/varapp-frontend-react/releases/tag/v1.0>`_.
+`varapp-frontend-react.tar.gz <https://github.com/varapp/varapp-frontend-react/releases>`_.
 
 Copy that archive into a destination folder that can be read by Apache, 
 typically some ``htdocs/`` or ``/var/www/html/``, and extract. 
