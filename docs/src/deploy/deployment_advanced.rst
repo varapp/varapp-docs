@@ -7,7 +7,7 @@ Clone or download the archive and unarchive it.
 
 Install `npm` (with the `node.js` installer, for instance)::
 
-    yum -y install nodejs
+    sudo yum -y install nodejs
     sudo npm install npm -g
 
 The installation has been successfully tested with node v4.2.0 and npm 2.14.7.
