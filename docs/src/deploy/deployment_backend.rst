@@ -86,8 +86,8 @@ Apache - MySQL - SMTP - Redis
 
 * Install Apache (-devel so that we have `apxs`) and start the service::
     
-    yum install httpd-devel
-    service httpd start
+    sudo yum install httpd-devel
+    sudo service httpd start
 
   We install the -devel version to have `apxs`, the plugins installer.
   We need it for `mod_wsgi`, so that Apache can serve Python files.
@@ -97,12 +97,12 @@ Apache - MySQL - SMTP - Redis
   
   In CentOS7, MySQL is now called MariaDB::
 
-    yum install mariadb-devel mariadb-server mariadb-client
+    sudo yum install mariadb-devel mariadb-server mariadb-client
 
   Start/autostart the service::
 
-    systemctl start/enable mariadb.service
-    /usr/bin/mysql_secure_installation
+    sudo systemctl [start/enable] mariadb.service
+    sudo /usr/bin/mysql_secure_installation
 
   In order for python drivers to work, we need the devel version, hence the 
   `mariadb-devel`. For the classic mysql, it is ``yum install mysql-community-devel``.
@@ -110,7 +110,7 @@ Apache - MySQL - SMTP - Redis
 
 * Set up an SMTP server (emails)::
 
-    yum install telnet
+    sudo yum install telnet
 
   Test that it works::
 
@@ -232,6 +232,12 @@ Create the database
   This will create a new user "admin" with password "admin", the role of "superuser",
   with access to a sample database "demo_mini".
   This user will be able to manage available databases from the frontend Admin page.
+
+.. note::
+
+    If you already changed ``GEMINI_DB_PATH`` in the settings, you will need to move the
+    demo database from ``resources/db/`` to that new location.
+
 
 Serve the app
 .............
