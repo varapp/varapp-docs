@@ -12,7 +12,8 @@ in the usual Apache configuration file (`httpd.conf`, see below).
 
 Edit the configuration file ``app/conf/conf.js`` to specify the ``BACKEND_URL``,
 that all REST calls will use. E.g.: "`http://127.0.0.1:8000/varapp`" for the default 
-local dev server, or "`https://varapp-demo.vital-it.ch/backend`" for our demo server (HTTPS).
+local dev server, or "`https://varapp-demo.vital-it.ch/backend`" for our demo server (HTTPS),
+depending on your server's specific configuration (see below for Apache).
 
 
 Apache configuration
