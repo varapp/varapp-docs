@@ -138,3 +138,12 @@ Start using the app
 As soon as the data is ready, there is no need to look at those files anymore.
 Log in Varapp and start using the graphical interface.
 
+Add a database access to a user
+...............................
+
+If you are logged as a user with role 'admin' or 'superuser', you can access
+the Admin panel from the link on the top right of the screen.
+In the left column, select the user. Then in the right column, use the
+dropdown button to select a database to attribute to that user.
+You can deny access by using the "Remove" button in front of a database name.
+
