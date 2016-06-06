@@ -99,9 +99,6 @@ Varapp can interrogate as many of these variants databases as the user needs.
 The user interface allows to change the working database in one click.
 For performance reasons, we don't recommend generating databases containing more than 500K variants.
 
-Loading the databases
----------------------
-
 It is time to install the app. First follow the :doc:`./deployment` instructions.
 
 Manually
