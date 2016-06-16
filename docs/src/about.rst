@@ -15,6 +15,9 @@ Varapp is an application to filter genetic variants, with a reactive graphical u
 The application has been developed in a collaboration between the
 Swiss Institute of Bioinformatics (SIB) and the Lausanne University hospital (CHUV).
 
+Although it can be used as a desktop app, it is meant to be deployed as a web service 
+for a research group.
+
 .. figure:: /images/main-border.png
    :width:  100%
    :alt: Main window
@@ -118,6 +121,13 @@ in `Hum Mutat. 2014 Apr;35(4):447-51 <http://www.ncbi.nlm.nih.gov/pubmed/2451578
 
 If you liked it, we encourage you to deploy an instance at your own lab
 and share the experience.
+
+
+Contributing
+------------
+
+The source code is available in `Github <https://github.com/varapp>`_
+Bug reports, suggestions, contributions and comments are all welcome.
 
 
 Future plans

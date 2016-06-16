@@ -108,13 +108,13 @@ At this point the app needs to be told where to look for Gemini databases.
 This is done by setting `GEMINI_DB_PATH` to the location of your files in the config file
 ``settings.py`` of the backend.
 
-Then you copy new Gemini databases into that directory, they will be detected by the application
+Then when you copy new Gemini databases into that directory, they will be detected by the application
 and added to the list of available databases in the Admin panel, so that the administrator 
 can attribute them to users.
 
 Alternatively, you can fill the `variants_db` table of "users_db",
-in a similar fashion to the "demo" data already present, or use it to add metadata.
-Be careful though that the field 'name' must be unique.
+in a similar fashion to the demo data already present, or use it to add metadata.
+Be careful though that the field "name" must be unique.
 
 Automated pipeline
 ..................
