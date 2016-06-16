@@ -16,14 +16,14 @@ and frontend (Javascript/React).
 Dependencies
 ------------
 
-If necessary, see the :doc:`Dependencies <deploy/dependencies>` section to install them 
+When necessary, see the :doc:`Dependencies <deploy/dependencies>` section to install them 
 in a way that is guaranteed to work.
 
 * Python3
-* Apache (-devel)
-* MySQL (MariaDb)
+* Apache
+* MySQL
 * SMTP server (telnet)
-* Redis cache
+* Redis
 
 .. toctree::
    :hidden:
