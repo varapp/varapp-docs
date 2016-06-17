@@ -47,6 +47,28 @@ Filters panel
 
     |nbsp|
 
+Genomic scenarios
+.................
+
+* **No scenario**: At least one of the samples carries the variant.
+* **Dominant**: Present in affected individuals + absent in non-affected.
+* **Recessive**: Affected individuals are homozygous alt + parents are carriers + absent in non-affected.
+  At least one parent is required.
+* **De novo**: Present in affected individuals + absent from the parents + absent in non-affected.
+  At least one parent is required.
+* **Compound het**: A pair of variants from the same gene is present in affected individuals.
+  One parent carries one, the other parent carries the second. The non-affected carry at most one of them.
+  Both parents are required.
+* **X-linked**: Recessive, on chromosome X. Affected sons and their mother are carriers, or
+  daughters are homozygous alt and both their parents are carriers. 
+  
+
+.. note:: 
+
+   X-linked dominant variants can be found by selecting the "dominant" filter while limiting the location to "chrX".
+
+   "Dominant" and "de novo" are equivalent if the affected/non-affected individuals are respectively the chilren and their parents.
+
 
 .. _variants-table:
 
