@@ -27,13 +27,20 @@ In CentOS7, MySQL is now called MariaDB::
 
     sudo yum install mariadb-devel mariadb-server mariadb-client
 
-For the classic mysql, it is ``yum install mysql-community-devel``.
-In order for python drivers to work, we need the devel version, hence the 
-`mariadb-devel`. 
+For the classic mysql, the equivalent is::
+
+    yum install mysql-community-devel mysql-community-server mysql-community-client mysql-community-libs-compat
+
+N.B. In order for python driver ("mysqlclient") to work, we need the "-devel" version. 
+Also it is compatible with MySQL up to version 5.5. For later versions, the "-compat"
+lib is required.
 
 Start/autostart the service::
 
     sudo systemctl [start/enable] mariadb.service
+
+Create the root account (if necessary - depends on the MySQL version)::
+
     sudo /usr/bin/mysql_secure_installation
 
 SMTP server (emails)
