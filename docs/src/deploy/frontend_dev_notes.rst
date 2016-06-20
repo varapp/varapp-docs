@@ -1,6 +1,6 @@
 
-Build the from source
-.....................
+Build from source
+.................
 
 The Javascript frontend can be found in `Github <https://github.com/varapp/varapp-frontend-react>`_.
 Clone or download the archive and unarchive it.

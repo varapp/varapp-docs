@@ -2,6 +2,29 @@
 Changelog
 =========
 
+6th June - 17th June 2016
+-------------------------
+
+Simplified the installation: 
+
+* No more backend dependencies to install: download - edit settings - "install" - "runserver".
+* Numpy is now automatically installed before the setup script is run to build Cython extensions.
+* Rewrote the docs accordingly so that they are much less frightening,
+  separating local/test server from production setup with Apache.
+* Distributed to PyPi (but installing from source looks easier when configuration is involved).
+* Jenkins jobs that try the installation (backend+frontend) from a user perspective after each new build,
+  run the local server and check the response.
+
+Docs:
+
+* Description of genetic scenario filters
+
+Others:
+
+* Set up a background task service (celery). Tested on cache loading, but the goal is to
+  run vcf2db to replace Gemini (i.e. remove as a user-side dependency).
+
+
 23rd May - 3rd June 2016
 ------------------------
 
@@ -20,7 +43,7 @@ Minor bug fixes:
 Docs:
 
 * Simplified installation procedure. Alternatively, "from source".
-* How use deployment/test servers, to test that it works before configuring Apache etc.
+* How to use deployment/test servers, to test that it works before configuring Apache etc.
 
 
 
