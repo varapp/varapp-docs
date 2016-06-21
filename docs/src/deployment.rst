@@ -25,9 +25,11 @@ in a way that is guaranteed to work.
 
 .. toctree::
    :maxdepth: 1
+   :titlesonly: 
    
    deploy/backend_local
    deploy/backend_prod
    deploy/dependencies
    deploy/backend_dev_notes
+   schema
 
