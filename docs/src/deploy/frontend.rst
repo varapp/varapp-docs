@@ -6,12 +6,12 @@ From a precompiled distribution
 The easiest way to install it is to download the latest release archive:
 `varapp-frontend-react.tar.gz <https://github.com/varapp/varapp-frontend-react/releases>`_.
 
-Copy that archive into a destination folder that can be read by Apache, 
-typically some ``htdocs/`` or ``/var/www/html/``, and extract. 
-The destination folder is the one indicated by ``DocumentRoot`` 
-in the usual Apache configuration file (`httpd.conf`, see below).
+Copy that archive into a destination folder that can be read by your web server, and extract. 
+The web server directory is typically "/var/www/html/" (Linux), 
+"/Library/WebServer/Documents/" (OSX), 
+or for Apache the one indicated by "DocumentRoot" in its configuration. 
 
-Edit the configuration file ``app/conf/conf.js`` to specify the ``BACKEND_URL``,
+Edit the configuration file "app/conf/conf.js" to specify the ``BACKEND_URL``,
 that all REST calls will use. E.g.: "`http://127.0.0.1:8000/varapp`" for the default 
 local dev server, or "`https://varapp-demo.vital-it.ch/backend`" for our demo server (HTTPS),
 depending on your server's specific configuration (see below for Apache).
@@ -31,13 +31,13 @@ Here is our development config (shortened), given as example::
 
   <VirtualHost *:80>
     ServerAdmin  admin_name
-    DocumentRoot .../htdocs
+    DocumentRoot /var/www/html/varapp
     ServerName   varapp-demo.vital-it.ch
 
     ProxyPass         /backend  http://localhost:8887/varapp
     ProxyPassReverse  /backend  http://localhost:8887/varapp
 
-    <Directory ".../htdocs">
+    <Directory "/var/www/html/varapp">
       AllowOverride All
       Options FollowSymLinks
       Order allow,deny
