@@ -19,7 +19,8 @@ and frontend (Javascript/React). It depends on the following components to work:
 * SMTP server (telnet)
 * Redis
 
-When necessary, see the :doc:`Dependencies <deploy/dependencies>` section to install them 
+Make sure that all of them are running before installing Varapp.
+Where necessary, see the :doc:`Dependencies <deploy/dependencies>` section to install them 
 in a way that is guaranteed to work.
 
 .. toctree::
