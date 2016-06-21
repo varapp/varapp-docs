@@ -19,11 +19,7 @@ Install varapp
   This makes every python library you install from now on, including Varapp, exist only in this directory.
   To uninstall varapp, you only need to ``rm -rf $venv``.
 
-* Edit the **settings file** to fit your environment:
-
-  The app needs a file with various settings,
-  a template of which is already present in the distribution inside
-  "varmed/settings/settings.py". Edit this file according to your environment 
+* Edit the **settings file** at "varmed/settings/settings.py" to fit your environment 
   (at least the MySQL connection settings).
 
 * Install:
@@ -32,7 +28,6 @@ Install varapp
   Install all required Python dependencies together with Varapp itself::
 
     python3 setup.py install
-
 
 Create the database
 +++++++++++++++++++
@@ -63,23 +58,43 @@ Create the database
 Serve the app
 +++++++++++++
 
-* Test with the local dev server:
-
-  This will start a simple web server (not suitable for production)::
+This will start a simple local web server::
 
     python3 manage.py runserver
+  
+Now you can enter ``http://127.0.0.1:8000/varapp`` in your browser's address bar 
+and it should answer "Hello World!". 
 
-  Now you can enter ``http://127.0.0.1:8000/varapp`` in your browser's address bar 
-  and it should answer "Hello World!". 
+See :doc:`backend_prod` to see how to deploy it on a larger scale.
 
 Add more data
 +++++++++++++
 
-  Now you can add Gemini databases to the directory defined by ``GEMINI_DB_PATH`` in the settings.
-  When the app (re-)starts, all sqlite3 databases present in that directory will be loaded.
-  In the interface, that will make them available in the db selection menu, 
-  and in the Admin page so that the admin can manage the access of each database
-  to other users and himself.
+Now you can add Gemini databases to the directory defined by ``GEMINI_DB_PATH`` in the settings.
+When the app (re-)starts, all sqlite3 databases present in that directory will be loaded.
+In the interface, that will make them available in the db selection menu, 
+and in the Admin page so that the admin can manage the access of each database
+to other users and himself.
 
-  If you have not yet produced a Gemini database from your VCF, see :doc:`method`.
+If you have not yet produced a Gemini database from your VCF, see :doc:`../data_preparation`.
 
+Install the web interface
++++++++++++++++++++++++++
+
+The easiest way is to download the latest release archive:
+`varapp-frontend-react.tar.gz <https://github.com/varapp/varapp-frontend-react/releases>`_.
+
+* Copy that archive into a destination folder that can be read by your web server, and extract. 
+  The web server directory is typically "/var/www/html/" (Linux), 
+  "/Library/WebServer/Documents/" (OSX), 
+  or for Apache the one indicated by "DocumentRoot" in its configuration. 
+
+* Test that it works locally:
+
+  Now point your browser to the address ``localhost/`` in your browser's address bar 
+  and you should see the login screen. 
+
+  If you placed the files in a subfolder (recommended), e.g. "/var/www/html/varapp-web/", 
+  then the address becomes ``localhost/varapp-web/``.
+
+* See :doc:`backend_prod` to see how to deploy it on a larger scale.

@@ -15,7 +15,7 @@ Contents
    :maxdepth: 2
 
    src/about
-   src/method
+   src/data_preparation
    src/deployment
    src/usage
    src/acknowledgements

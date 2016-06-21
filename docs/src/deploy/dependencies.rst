@@ -3,6 +3,9 @@
 .. |nbsp| unicode:: 0xA0
    :trim:
 
+Dependencies
+------------
+
 This page describes how to setup your host machine with the tools that
 Varapp needs to run. They may already be installed on your machine, in which
 case you can skip the related section.

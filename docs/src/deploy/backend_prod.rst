@@ -59,3 +59,46 @@ To change settings once the app is already up and running, reinstall and restart
     python3 setup.py install
     ./mod_wsgi-server/apachectl restart
 
+
+Apache configuration
+....................
+
+We are interested in the user/machine specific Apache config file, 
+commonly called `httpd.conf`, often located in ``/etc/httpd/`` or in the
+``apache2/`` directory.
+
+N.B. `mod_wsgi-express` generated another one that should not be 
+edited direcly (it would be overwritten anyway).
+
+Here is our development config (shortened), given as example::
+
+  <VirtualHost *:80>
+    ServerAdmin  admin_name
+    DocumentRoot /var/www/html/varapp
+    ServerName   varapp-demo.vital-it.ch
+
+    ProxyPass         /backend  http://localhost:8887/varapp
+    ProxyPassReverse  /backend  http://localhost:8887/varapp
+
+    <Directory "/var/www/html/varapp">
+      AllowOverride All
+      Options FollowSymLinks
+      Order allow,deny
+      Allow from all
+    </Directory>
+  </VirtualHost>
+
+Then restart Apache::
+
+  sudo /etc/init.d/httpd restart
+  
+Depending on your system, it may be different, like 
+``/sbin/service httpd restart``, or ``/etc/init.d/httpd restart``.
+
+The ProxyPass lines are the common way to redirect ``<domain>/backend`` URLs
+(e.g. varapp-demo.vital-it.ch/backend) to ``localhost:<port>/varapp``, 
+the local wsgi server (that the client cannot access directly otherwise).
+
+Replace ``*:80`` by ``*:443`` to use HTTPS instead of HTTP. Do not forget to 
+edit the ``BACKEND_URL`` accordingly in ``app/conf/conf.js``.
+
