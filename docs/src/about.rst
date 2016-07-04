@@ -123,6 +123,15 @@ If you liked it, we encourage you to deploy an instance at your own lab
 and share the experience.
 
 
+Reference
+---------
+
+Please add this reference to your publication if Varapp helped you in your research: 
+`<http://biorxiv.org/content/early/2016/06/27/060806>`_
+
+**doi**: http://dx.doi.org/10.1101/060806
+
+
 Contributing
 ------------
 
