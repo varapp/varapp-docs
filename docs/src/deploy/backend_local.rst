@@ -6,7 +6,7 @@
 Install varapp
 ..............
 
-* Clone or download the archive::
+* Clone or download the archive from `Github <https://github.com/varapp/varapp-backend-py>`_::
 
     git clone https://github.com/varapp/varapp-backend-py.git
 
@@ -18,12 +18,12 @@ Install varapp
   This makes every python library you install from now on, including Varapp, exist only in this directory.
   To uninstall varapp, you only need to ``rm -rf $venv``.
 
-* Edit the **settings file** at "varmed/settings/settings.py" to fit your environment 
-  (at least the MySQL connection settings).
+* Enter the app's source folder and edit the **settings file** at "varmed/settings/settings.py" 
+  to fit your environment (at least the MySQL connection settings).
 
 * Install:
 
-  Enter the app's source folder. There should be a file "setup.py" in the current directory.
+  There should be a file "setup.py" in the current directory.
   Install all required Python dependencies together with Varapp itself::
 
     python3 setup.py install
