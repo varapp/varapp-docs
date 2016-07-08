@@ -127,7 +127,7 @@ Reference
 ---------
 
 Please add this reference to your publication if Varapp helped you in your research: 
-`<http://biorxiv.org/content/early/2016/06/27/060806>`_
+`<http://biorxiv.org/content/early/2016/06/27/060806>`_.
 
 **doi**: http://dx.doi.org/10.1101/060806
 
@@ -135,7 +135,7 @@ Please add this reference to your publication if Varapp helped you in your resea
 Contributing
 ------------
 
-The source code is available in `Github <https://github.com/varapp>`_
+The source code is available in `Github <https://github.com/varapp>`_.
 Bug reports, suggestions, contributions and comments are all welcome.
 
 
