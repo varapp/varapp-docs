@@ -2,6 +2,25 @@
 Changelog
 =========
 
+
+27th June - 8th July 2016
+-------------------------
+
+* Bam-server is operational. It serves Igv.js in varapp directly without processing 
+  (no need samtools, no intermediate file, no Apache). 
+* Deploy script for bam-server, + public config file. Deployed on dev VM.
+* Clicking on a variant opens an IGV window showing the alignments for the selected samples 
+  (up to 6, and provided the BAM exists and is referenced appropriately in the db).
+  The window gets closed when changing a filter, sample, the variants database, or when clicking a Close button.
+* Func tests: the new Location text area, new behavior or affected/not samples selection buttons.
+* Show the app's version in the footer.
+* Added BioRxiv link in the docs under "About Varapp > Reference".
+* Removed bootstrap.js dependency (conflicting with jquery-ui required by igv.js); 
+  replaced its only occurrence by react-bootstrap's Accordion component (removed 100 lines of ugly code).
+* Get igv.js from url, but its dependences from bower.
+
+
+
 20th June - 24th June 2016
 --------------------------
 
