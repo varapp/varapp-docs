@@ -2,6 +2,34 @@
 Changelog
 =========
 
+20th June - 24th June 2016
+--------------------------
+
+* Created a simple local BAM server in Scala (separate project).
+* Possible to enter a list of genes as a column in a text area (easier to browse than the input field).
+* "Affected/not affected" buttons in samples selection tab now deselect the unaffected/affected samples 
+  of the selection, respectively (instead of just making them invisible).
+
+Functional tests:
+
+* Demo and prod instances also have func tests running, at least to know the server is up.
+* Lookup window
+
+Docs:
+
+* Refactor deployment docs: local installation for both backend and frontend together on 1 page; production setup; dependencies; dev notes.
+* Users database schema exposed.
+
+Minor bug fixes
+
+* Fixed Ensembl and Entrez IDs that disappeared from lookup.
+* Fixed lookup freezing when selecting a second variant.
+* Fixed NaNs in max frequency column.
+* Fixed "Back" button disappearing from Admin panel when tables get big. #dirtycss
+* Sorted impacts by alphabetical order.
+* Fixed Location filter validation state broken after react-bootstrap update.
+
+
 6th June - 17th June 2016
 -------------------------
 
