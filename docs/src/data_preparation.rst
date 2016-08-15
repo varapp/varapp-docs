@@ -6,6 +6,16 @@ Here we describe how to enhance the VCF file one gets from a usual variants call
 by adding useful annotation and moving the data into a relational database
 to allow fast searching and filtering of variants within Varapp.
 
+The VCF must be first `decomposed and normalized with vt <http://genome.sph.umich.edu/wiki/Vt>`_, 
+then `annotated with VEP 
+<http://gemini.readthedocs.io/en/latest/content/functional_annotation.html#stepwise-installation-and-usage-of-vep>`_, 
+then is `ran through Gemini <http://gemini.readthedocs.io/en/latest/content/quick_start.html>`_
+to transform it into a relational database of annotated variants.
+
+The complete pipeline we use can be found :doc:`here <annotate_vcf>`.
+When a new VCF arrives, run it through the pipeline, 
+then move the result where Varapp reads it (see next section).
+
 Input format
 ------------
 
@@ -44,13 +54,8 @@ have been used to produce a dataset,
 so that it is always possible to reproduce a result obtained with an older version.
 *Note*: We use Gemini for annotation only; Varapp has its own query API for filtering.
 
-The VCF gets first `decomposed and normalized with vt <http://genome.sph.umich.edu/wiki/Vt>`_, 
-then `annotated with VEP 
-<http://gemini.readthedocs.io/en/latest/content/functional_annotation.html#stepwise-installation-and-usage-of-vep>`_, 
-then is `ran through Gemini <http://gemini.readthedocs.io/en/latest/content/quick_start.html>`_
-to transform it into a relational database of annotated variants.
-
-Until a later release, Varapp is sensible to the annotation it finds in the VCF.
+Until a later release, Varapp is sensible to the annotation it finds in the VCF 
+(i.e. it will ignore supplementary info but complain if some is missing).
 Here is the command that we run to annotate with VEP::
 
     perl ${VEP_PATH}/variant_effect_predictor.pl -i <vcf> \
@@ -84,9 +89,6 @@ And this is the custom annotation we add from the VCF INFO field into Gemini::
         -e AF,BaseQRankSum,FS,MQRankSum,ReadPosRankSum,SOR \
         -o mean,mean,mean,mean,mean,mean \
         <gemini_db>
-
-The complete pipeline we use can be found :doc:`here <annotate_vcf>`.
-
 
 The annotation with VEP can take a few hours. However, it has to be done only once.
 
@@ -137,6 +139,10 @@ Start using the app
 
 As soon as the data is ready, there is no need to look at those files anymore.
 Log in Varapp and start using the graphical interface.
+
+The first time it sees new databases, Varapp will take a few time to fill its cache,
+especially if the databases are big. For now you can keep track of this progress 
+in the Apache logs - but we are working on making it more visible.
 
 Add a database access to a user
 ...............................
