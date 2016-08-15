@@ -133,8 +133,8 @@ You config then should look like this::
   </VirtualHost>
   </IfModule>
 
-* Edit the ``BASE_URL`` in the backend settings to point to the new HTTPS address.
-* Edit the ``BACKEND_URL`` in ``app/conf/conf.js`` to point to the new HTTPS address.
+* Edit the ``BASE_URL`` in the settings to point to the new HTTPS address.
+* Edit the ``BACKEND_URL`` in the frontend's ``app/conf/conf.js`` to point to the new HTTPS address.
 
 I you really want to use HTTPS between Apache and the local Django backend, 
 you will have to add a Strict-Transport-Security header in Apache,
