@@ -12,18 +12,18 @@ directly. There should be some sort of authentication.
 
 Here is how we implemented it in Varapp:
 
-* The `bam` table of the users db defines a correspondance between samples
-  (database id + sample name) and a secret random key.
-* In some BAM server application, the same secret key corresponds 
+* The `bam` table of Varapp's users db defines a correspondance between samples
+  (database id + sample name) and a secret random `key`.
+* In the database of some file server application, the same secret `key` corresponds 
   to the path of a BAM file on disk. 
 * When accessed with e.g. `https://<hostname>/bamserver/<key>`,
-  the BAM server application returns (part of) the content of the BAM file.
+  the file server application returns (part of) the content of the BAM file.
   It must accept the Range HTTP header.
 * For each sample to view, IGV.js must be given a URL to the BAM file.
   We give it `https://<hostname>/bamserver/<key>`.
   It queries the BAM index to know the range of bytes corresponding
-  to the genomic region to display. Then it makes bytes Range requests to
-  get the part of the BAM file corresponding to that region.
+  to the genomic region to display. Then it makes Range requests to
+  extract these bytes.
 
 Such a very simple BAM server can be found here: 
 `<https://github.com/jdelafon/bam-server-scala>`_
