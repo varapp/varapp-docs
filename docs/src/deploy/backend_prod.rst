@@ -99,6 +99,45 @@ The ProxyPass lines are the common way to redirect ``<domain>/backend`` URLs
 (e.g. varapp-demo.vital-it.ch/backend) to ``localhost:<port>/varapp``, 
 the local wsgi server (that the client cannot access directly otherwise).
 
-Replace ``*:80`` by ``*:443`` to use HTTPS instead of HTTP. Do not forget to 
-edit the ``BACKEND_URL`` accordingly in ``app/conf/conf.js``.
+Using HTTPS (SSL)
+.................
+
+Now the client accesses to Varapp through an Apache proxy. 
+The backend itself is not reachable from the outside.
+Since the communication between Apache and the backend is local,
+it is usually not necessary to secure this communication. 
+However, we need to encrypt data between the client and the Apache proxy.
+
+Using SSL requires to have a certificate. The best way is to buy an official one. 
+You can also use a self-signed certificate, but this will warn every user on first 
+connection that they might be at risk, until they accept to make an exception 
+in their browser. Until then, CURL will also fail with a ERR_INSECURE_RESPONSE 
+error (use -k option when testing to bypass it).
+
+* Add a new VirtualHost similar as above, but replacing ``*:80`` by ``*:443``.
+* Add SSL options and certificate to the config.
+* Keep the ProxyPass lines just as they were before.
+
+You config then should look like this::
+
+  <IfModule mod_ssl.c>
+  <VirtualHost *:443>
+    ...
+    SSLEngine on
+    SSLCertificateFile    .../varapp.crt
+    SSLCertificateKeyFile .../varapp.key
+    ...
+    ProxyPass         /backend  http://localhost:8887/varapp
+    ProxyPassReverse  /backend  http://localhost:8887/varapp
+    ...
+  </VirtualHost>
+  </IfModule>
+
+* Edit the ``BASE_URL`` in the backend settings to point to the new HTTPS address.
+* Edit the ``BACKEND_URL`` in ``app/conf/conf.js`` to point to the new HTTPS address.
+
+I you really want to use HTTPS between Apache and the local Django backend, 
+you will have to add a Strict-Transport-Security header in Apache,
+and look at `Django docs <https://docs.djangoproject.com/en/1.10/topics/security/#ssl-https>`_ 
+to configure it in its settings.
 
