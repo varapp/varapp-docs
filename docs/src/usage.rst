@@ -189,6 +189,25 @@ For saving purposes however, we advise to use the in-app bookmarks for the follo
   The maintenance of browser favorites is the responsibility of the user.
 
 
+.. _igv:
+
+Viewing read alignments
+.......................
+
+If you have :ref:`set up a BAM files server <bamserver>`, you can view the reads alignment
+corresponding to a variant by double-clicking on its row. It will open an IGV view
+with one track per currently selected sample (up to 6), centered at the variant's position.
+
+.. figure:: /images/igv.png
+   :scale:  50%
+   :alt: IGV view
+
+The log panel in the bottom-left corner will indicate the connection status
+with the BAM server, or if no corresponding BAM file has been associated
+with the currently selected samples.
+
+
+
 .. _samples-selection:
 
 Samples selection

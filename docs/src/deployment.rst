@@ -32,4 +32,5 @@ in a way that is guaranteed to work.
    deploy/dependencies
    deploy/backend_dev_notes
    schema
+   deploy/bamserver
 
