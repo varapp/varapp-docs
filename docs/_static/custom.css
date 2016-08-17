@@ -28,3 +28,6 @@ div.clear {
     clear: both;
 }
 
+.strike {
+  text-decoration: line-through;
+}
