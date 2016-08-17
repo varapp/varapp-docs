@@ -3,6 +3,48 @@ Changelog
 =========
 
 
+16th August 2016
+----------------
+
+* BAM server:
+
+  - Reduced to a few lines now that Netty can handle Range requests.
+  - Documented in its README.rst.
+    
+* IGV view of alignments:
+
+  - Now appears in a Modal on double-click on a variant.
+  - Documented (see How can I try it, Production setup, User's manual).
+  - Sources of IGV.js now bundled with the project, and loaded lazily 
+    (new `async` property of the <script> tag).
+  - Available on the demo version with de HapMap data (double-click on variant in chr1).
+  - Fixed HTTPS configuration.
+  - Replaced default gene tracks by public URLs.
+    
+* Made it visible that the Location filter is computing (loading gif in its area).
+* Minified CSS.
+* Cron job to dump the prod db once a day.
+* Documented how to set up HTTPS (most frequent request from external users).
+* Tagged v1.1 .
+
+Major bug fixes
+
+* Fixed BAM server (yet useless) secret key visible in `ps -ef` output.
+
+Minor bug fixes
+
+* Throw an error if a location query is made over more than 300 genes/intervals, 
+  instead of failing silently.
+* Prevent a user of the demo version to create more than 15 bookmarks.
+* Check connection to BAM server with HEAD query (instead of GET).
+
+Functional tests
+
+* Location filter with too many intervals in the query.
+* IGV view.
+
+
+
 27th June - 8th July 2016
 -------------------------
 
