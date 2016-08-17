@@ -94,6 +94,11 @@ How can I try it?
 One public, demo version of the program is available at
 `https://varapp-demo.vital-it.ch <https://varapp-demo.vital-it.ch>`_ .
 
+.. note::
+
+    This version runs or minimal hardware, thus its performance is not comparable
+    to a real production setup.
+
 Log in as user "demo" with password "demo".
 You will be granted access to a variants database "demo".
 Try the following standard filters:
@@ -114,10 +119,12 @@ in `Hum Mutat. 2014 Apr;35(4):447-51 <http://www.ncbi.nlm.nih.gov/pubmed/2451578
     shuffled parents data. The TBC1D7 pathogenic variant was then added
     following recessive pattern of inheritance.
 
-.. note::
-
-    This version runs or minimal hardware, thus its performance is not comparable
-    to a real production setup.
+A second, public dataset "hapmap" of 170K variants is available 
+(source: `HapMap <http://sra.dnanexus.com/studies/SRP007298/runs>`_).
+Switch to it using the database selection button in the top right corner. 
+Try double-clicking a variant to view the read alignment that
+is at the origin of the call. (To save disk space, only alignments 
+on the first 3M bp of chromosome 1 are available).
 
 If you liked it, we encourage you to deploy an instance at your own lab
 and share the experience.
