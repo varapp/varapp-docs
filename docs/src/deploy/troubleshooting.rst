@@ -12,10 +12,10 @@ Varpp is still under development. It means that a new version can have breaking 
   In particular, new variables specific to new features.
 
 * **Cache**: Cached internal data structures could have changed. Delete the Redis
-  database and let it rebuild itself fron scratch.
+  database and let it rebuild itself from scratch.
 
 * **Database schema**: The database model can have changed slightly,
-  and accessing to an inexistent column or table will throw an error.
+  and accessing an inexistent column or table will throw an error.
   In this case, try using ``python3 manage.py migrate`` after an update. 
   It it conflicts too much, fix changes manually 
   (e.g. add missing columns based on server logs and models definition).
