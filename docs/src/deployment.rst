@@ -33,4 +33,5 @@ in a way that is guaranteed to work.
    deploy/backend_dev_notes
    schema
    deploy/bamserver
+   deploy/troubleshooting
 
