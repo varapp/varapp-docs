@@ -1,9 +1,31 @@
 
 Troubleshooting
+---------------
+
+After an update
 ...............
 
-Here are common issues that can be encountered during the installation,
-after each step of the deployment:
+Varpp is still under development. It means that a new version can have breaking changes.
+
+* Settings: Make sure that your settings files still have the right fields,
+  compared to the given template in both backend and frontend.
+  In particular, new variables specific to new features.
+
+* Cached internal data structures could have changed. Delete the Redis
+  database and let it rebuild itself fron scratch.
+
+* Database schema: The database model can have changed slightly,
+  and accessing to an inexistent column or table will throw an error.
+  Use `python3 manage.py migrate` after an update. It it conflicts too much,
+  fix changes manually 
+  (e.g. add missing columns based on server logs and models definition).
+
+
+During installation
+...................
+
+Here are listed issues that could be encountered at various states
+of the deployment:
 
 * ``numpy/arrayobject.h: No such file or directory``: 
 
@@ -26,7 +48,8 @@ after each step of the deployment:
   Otherwise, please file an issue, and install the missing dependency with ``pip3 install <lib>``.
   It could also be a version clash outside of a virtualenv.
 
-* ``django.core.cache.backends.base.InvalidCacheBackendError: Could not find backend 'django_redis.cache.RedisCache': No module named 'django_redis.cache'``: 
+* ``django.core.cache.backends.base.InvalidCacheBackendError: Could not find backend 
+  'django_redis.cache.RedisCache': No module named 'django_redis.cache'``: 
 
   Same as above.
 
