@@ -5,7 +5,8 @@ Updating Varapp
 Varapp is still under development. It means that a new version can have breaking changes.
 
 * **Clear the cache**: Cached internal data structures could have changed. 
-  **Delete the Redis database** and let it rebuild itself from scratch.
+  **Delete the Redis database** (``redis-cli FLUSHALL``) and let it rebuild itself from scratch
+  (it can take a few minutes if your databases are big).
 
 * **Settings**: Make sure that your settings files still have the right fields,
   compared to the given template in both backend and frontend.
