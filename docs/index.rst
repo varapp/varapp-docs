@@ -6,7 +6,7 @@
 Welcome to Varapp's documentation!
 ==================================
 
-Updated last: 16th August 2016
+Updated last: 24th August 2016
 
 Contents
 ''''''''

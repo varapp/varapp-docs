@@ -2,32 +2,8 @@
 Troubleshooting
 ---------------
 
-After an update
-...............
-
-Varpp is still under development. It means that a new version can have breaking changes.
-
-* **Settings**: Make sure that your settings files still have the right fields,
-  compared to the given template in both backend and frontend.
-  In particular, new variables specific to new features.
-
-* **Cache**: Cached internal data structures could have changed. Delete the Redis
-  database and let it rebuild itself from scratch.
-
-* **Database schema**: The database model can have changed slightly,
-  and accessing an inexistent column or table will throw an error.
-  In this case, try using ``python3 manage.py migrate`` after an update. 
-  It it conflicts too much, fix changes manually 
-  (e.g. add missing columns based on server logs and models definition).
-  In the worst case, dump the data, create a new db, use the migrate command,
-  then copy the data back.
-
-
-During installation
-...................
-
 Here are listed issues that could be encountered at various states
-of the deployment:
+of the deployment - visible in the server logs:
 
 * ``numpy/arrayobject.h: No such file or directory``: 
 
